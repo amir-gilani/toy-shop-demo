@@ -51,30 +51,14 @@ export default function Navbar() {
   return (
     <>
       {/*
-        Absolute, not fixed: the strip is a welcome, not a permanent fixture, so
-        it scrolls away and hands the top of the screen back to the header.
-      */}
-      <div className="absolute top-0 left-0 z-30 flex w-full items-center justify-center gap-2 bg-ink px-4 py-2 text-center text-[12px] font-semibold tracking-wide text-cream sm:text-[13px]">
-        <span aria-hidden="true">✳</span>
-        {/* The long version only when there is a line to spare. */}
-        <span className="sm:hidden">Free delivery over £40 · free gift wrap</span>
-        <span className="hidden sm:inline">
-          Free delivery over £40 — and gift wrap is always on the house
-        </span>
-        <span aria-hidden="true">✳</span>
-      </div>
-
-      {/*
-        The bar slides up to meet the top of the screen once the announcement
-        has scrolled away. That move is a transform, not a change of `top` or
-        padding: both of those relayout the page on every frame of the
-        transition, which is exactly the kind of cost you feel while scrolling.
+        The bar starts transparent over the hero and takes on cream and a border
+        once there is content behind it. Only colour animates: changing `top` or
+        padding would relayout the page on every frame of the transition, which
+        is exactly the kind of cost you feel while scrolling.
       */}
       <header
-        className={`fixed top-0 left-0 z-20 w-full border-b py-3.5 transition-[transform,background-color,border-color] duration-300 ease-out ${
-          scrolled
-            ? 'translate-y-0 border-ink/8 bg-cream'
-            : 'translate-y-[33px] border-transparent bg-transparent sm:translate-y-[35px]'
+        className={`fixed top-0 left-0 z-20 w-full border-b py-3.5 transition-[background-color,border-color] duration-300 ease-out ${
+          scrolled ? 'border-ink/8 bg-cream' : 'border-transparent bg-transparent'
         }`}
       >
         <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-5 sm:px-8">
