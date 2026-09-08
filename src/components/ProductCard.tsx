@@ -17,6 +17,10 @@ function Stars({ rating }: { rating: number }) {
 
 export default function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false)
+  // A missing photo must not leave a hole in the grid: one failed load and the
+  // card goes back to the drawing that shipped with the product.
+  const [photoFailed, setPhotoFailed] = useState(false)
+  const showPhoto = Boolean(product.image) && !photoFailed
 
   // There is no basket yet, so the button confirms and then quietly resets.
   useEffect(() => {
@@ -28,7 +32,9 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[2rem] border-2 border-ink/8 bg-cloud transition-all duration-300 hover:-translate-y-1.5 hover:border-ink hover:shadow-[0_28px_44px_-30px_rgb(36_26_46_/_0.65)]">
       <div
-        className="relative flex aspect-[4/3.4] items-center justify-center p-6"
+        className={`relative flex aspect-[4/3.4] items-center justify-center overflow-hidden ${
+          showPhoto ? '' : 'p-6'
+        }`}
         style={{ backgroundColor: product.tint }}
       >
         {product.badge && (
@@ -40,9 +46,20 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.age}
         </span>
 
-        <div className="h-full w-full max-w-[190px] transition-transform duration-500 group-hover:scale-108 group-hover:-rotate-2">
-          <ToyArt name={product.art} title={product.name} />
-        </div>
+        {showPhoto ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            decoding="async"
+            onError={() => setPhotoFailed(true)}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="h-full w-full max-w-[190px] transition-transform duration-500 group-hover:scale-108 group-hover:-rotate-2">
+            <ToyArt name={product.art} title={product.name} />
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">

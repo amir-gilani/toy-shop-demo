@@ -12,6 +12,12 @@ export type Product = {
   reviews: number
   age: string
   art: ToyArtKey
+  /**
+   * Photograph of the toy, served from `public/`. Optional: without one the
+   * card falls back to the hand-drawn `art`, so a product can ship before its
+   * photo does — and so can a photo that fails to load.
+   */
+  image?: string
   /** Card background — every product owns one pastel so the grid stays varied. */
   tint: string
 }
@@ -28,6 +34,7 @@ export const PRODUCTS: Product[] = [
     reviews: 318,
     age: '0+',
     art: 'bear',
+    image: '/products/bramble.jpg',
     tint: '#ffeede',
   },
   {
@@ -40,6 +47,7 @@ export const PRODUCTS: Product[] = [
     reviews: 204,
     age: '0+',
     art: 'bunny',
+    image: '/products/pip.jpg',
     tint: '#ffe6f2',
   },
   {
@@ -51,6 +59,7 @@ export const PRODUCTS: Product[] = [
     reviews: 142,
     age: '3+',
     art: 'train',
+    image: '/products/wobble.jpg',
     tint: '#e4f8f1',
   },
   {
@@ -64,6 +73,7 @@ export const PRODUCTS: Product[] = [
     reviews: 96,
     age: '4+',
     art: 'robot',
+    image: '/products/bolt.jpg',
     tint: '#e6f3ff',
   },
   {
@@ -75,6 +85,7 @@ export const PRODUCTS: Product[] = [
     reviews: 173,
     age: '1+',
     art: 'doll',
+    image: '/products/juno.jpg',
     tint: '#f1e9ff',
   },
   {
@@ -87,17 +98,19 @@ export const PRODUCTS: Product[] = [
     reviews: 261,
     age: '2+',
     art: 'blocks',
+    image: '/products/alphabet.jpg',
     tint: '#fff4dd',
   },
   {
     id: 'sprout',
     name: 'Sprout the Dino',
-    blurb: 'A very polite dinosaur with a velvet belly and tiny socks.',
+    blurb: 'A stout hand-painted stegosaurus, built for sandpits and baths.',
     price: 44,
     rating: 4.9,
     reviews: 188,
-    age: '0+',
+    age: '3+',
     art: 'dino',
+    image: '/products/sprout.jpg',
     tint: '#e4f8f1',
   },
   {
@@ -111,6 +124,7 @@ export const PRODUCTS: Product[] = [
     reviews: 74,
     age: '18m+',
     art: 'horse',
+    image: '/products/clover.jpg',
     // Blue, not cream: the horse is painted cream and would vanish into a warm
     // tint the way it does on the shelf photos.
     tint: '#e6f3ff',
