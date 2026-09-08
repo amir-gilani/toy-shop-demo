@@ -2,13 +2,10 @@ import { useState } from 'react'
 import { useReveal } from '../hooks/useReveal'
 import SectionHeading from './SectionHeading'
 import { Confetti, Blob } from './Decor'
-import ToyArt from './ToyArt'
-import type { ToyArtKey } from './ToyArt'
 
 type AgeBand = {
   age: string
   label: string
-  art: ToyArtKey
   image: string
   tint: string
 }
@@ -17,28 +14,24 @@ const AGES: AgeBand[] = [
   {
     age: '0–1',
     label: 'First cuddles',
-    art: 'bunny',
     image: '/ages/first-cuddles.jpg',
     tint: '#ffe6f2',
   },
   {
     age: '1–3',
     label: 'Grabbers & stackers',
-    art: 'blocks',
     image: '/ages/grabbers-stackers.jpg',
     tint: '#fff4dd',
   },
   {
     age: '3–5',
     label: 'Whole worlds',
-    art: 'train',
     image: '/ages/whole-worlds.jpg',
     tint: '#e4f8f1',
   },
   {
     age: '5+',
     label: 'Proper projects',
-    art: 'rocket',
     image: '/ages/proper-projects.jpg',
     tint: '#e6f3ff',
   },
@@ -46,8 +39,8 @@ const AGES: AgeBand[] = [
 
 /**
  * The photo fills the whole disc; the tint stays underneath as the ring, so a
- * band keeps its colour even while the image is still loading — or forever, if
- * it never does and the drawing takes over.
+ * band keeps its colour while the image loads — and stays a plain coloured disc
+ * for as long as there is no photograph to put in it.
  */
 function AgeArt({ band }: { band: AgeBand }) {
   const [photoFailed, setPhotoFailed] = useState(false)
@@ -57,11 +50,7 @@ function AgeArt({ band }: { band: AgeBand }) {
       className="grid h-28 w-28 place-items-center overflow-hidden rounded-full p-1.5 transition-transform duration-500 group-hover:scale-105 sm:h-32 sm:w-32"
       style={{ backgroundColor: band.tint }}
     >
-      {photoFailed ? (
-        <span className="p-2.5">
-          <ToyArt name={band.art} title={band.label} />
-        </span>
-      ) : (
+      {!photoFailed && (
         <img
           src={band.image}
           alt={band.label}

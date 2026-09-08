@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import type { Product } from '../data/shop'
-import ToyArt from './ToyArt'
 
 function Stars({ rating }: { rating: number }) {
   const rounded = Math.round(rating)
@@ -17,8 +16,8 @@ function Stars({ rating }: { rating: number }) {
 
 export default function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false)
-  // A missing photo must not leave a hole in the grid: one failed load and the
-  // card goes back to the drawing that shipped with the product.
+  // Until the photograph exists the frame is simply left empty — the tint keeps
+  // the card's height and colour, so the grid holds its shape either way.
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = Boolean(product.image) && !photoFailed
 
@@ -46,7 +45,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.age}
         </span>
 
-        {showPhoto ? (
+        {showPhoto && (
           <img
             src={product.image}
             alt={product.name}
@@ -55,10 +54,6 @@ export default function ProductCard({ product }: { product: Product }) {
             onError={() => setPhotoFailed(true)}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        ) : (
-          <div className="h-full w-full max-w-[190px] transition-transform duration-500 group-hover:scale-108 group-hover:-rotate-2">
-            <ToyArt name={product.art} title={product.name} />
-          </div>
         )}
       </div>
 

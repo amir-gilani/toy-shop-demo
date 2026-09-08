@@ -2,16 +2,15 @@ import { useState } from 'react'
 import type { Category } from '../data/shop'
 import { CATEGORIES } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
-import ToyArt from './ToyArt'
 import SectionHeading from './SectionHeading'
 import { Confetti, Squiggle } from './Decor'
 
-/** Shelf photo when there is one, the drawing when there isn't — see Product.image. */
+/** Shelf photo when there is one, otherwise the slot is left empty — see Product.image. */
 function CategoryArt({ category }: { category: Category }) {
   const [photoFailed, setPhotoFailed] = useState(false)
 
   if (!category.image || photoFailed) {
-    return <ToyArt name={category.art} title={category.name} />
+    return null
   }
 
   return (

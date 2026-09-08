@@ -11,11 +11,12 @@ export type Product = {
   rating: number
   reviews: number
   age: string
+  /** Drives the shelf filter in Shop, not the artwork. */
   art: ToyArtKey
   /**
-   * Photograph of the toy, served from `public/`. Optional: without one the
-   * card falls back to the hand-drawn `art`, so a product can ship before its
-   * photo does — and so can a photo that fails to load.
+   * Photograph of the toy, served from `public/products/`. The files are not in
+   * the repo yet: until one is dropped in at this path the card simply shows an
+   * empty tinted frame, and nothing about the layout changes when it arrives.
    */
   image?: string
   /** Card background — every product owns one pastel so the grid stays varied. */
@@ -134,8 +135,7 @@ export const PRODUCTS: Product[] = [
 export type Category = {
   name: string
   count: string
-  art: ToyArtKey
-  /** Shelf photograph, square. Optional on the same terms as `Product.image`. */
+  /** Square shelf photograph, on the same terms as `Product.image`. */
   image?: string
   tint: string
   tilt: string
@@ -145,7 +145,6 @@ export const CATEGORIES: Category[] = [
   {
     name: 'Plush friends',
     count: '84 cuddles',
-    art: 'bunny',
     image: '/categories/plush-friends.jpg',
     tint: '#ffe6f2',
     tilt: '-3deg',
@@ -153,7 +152,6 @@ export const CATEGORIES: Category[] = [
   {
     name: 'Wooden classics',
     count: '52 pieces',
-    art: 'train',
     image: '/categories/wooden-classics.jpg',
     tint: '#e4f8f1',
     tilt: '2deg',
@@ -161,7 +159,6 @@ export const CATEGORIES: Category[] = [
   {
     name: 'Build & stack',
     count: '38 sets',
-    art: 'blocks',
     image: '/categories/build-stack.jpg',
     tint: '#fff4dd',
     tilt: '-2deg',
@@ -169,7 +166,6 @@ export const CATEGORIES: Category[] = [
   {
     name: 'Little dreamers',
     count: '27 dolls',
-    art: 'doll',
     image: '/categories/little-dreamers.jpg',
     tint: '#f1e9ff',
     tilt: '3deg',
@@ -177,7 +173,6 @@ export const CATEGORIES: Category[] = [
   {
     name: 'Whirr & whizz',
     count: '31 gadgets',
-    art: 'robot',
     image: '/categories/whirr-whizz.jpg',
     tint: '#e6f3ff',
     tilt: '-2deg',
@@ -185,7 +180,6 @@ export const CATEGORIES: Category[] = [
   {
     name: 'Ready-wrapped gifts',
     count: '19 boxes',
-    art: 'rocket',
     image: '/categories/ready-wrapped.jpg',
     tint: '#ffeede',
     tilt: '2deg',
