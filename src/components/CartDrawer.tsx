@@ -42,7 +42,7 @@ function StepperButton({
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="grid h-8 w-8 place-items-center rounded-full text-[16px] leading-none font-bold text-ink transition-colors hover:bg-ink hover:text-white"
+      className="grid h-6 w-6 place-items-center rounded-full text-[14px] leading-none font-bold text-ink-soft transition-colors hover:bg-ink hover:text-white"
     >
       {children}
     </button>
@@ -75,7 +75,9 @@ function Line({ line }: { line: CartLine }) {
         <p className="mt-0.5 text-[13px] text-ink-soft">Ages {product.age}</p>
 
         <div className="mt-3 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1 rounded-full border-2 border-ink/10 bg-white p-0.5">
+          {/* A quiet tinted track rather than an outlined pill — at this size a
+              2px border and 32px taps read as a second Add to bag button. */}
+          <div className="flex items-center rounded-full bg-ink/6 p-0.5">
             <StepperButton
               label={
                 quantity === 1
@@ -86,7 +88,7 @@ function Line({ line }: { line: CartLine }) {
             >
               −
             </StepperButton>
-            <span className="min-w-5 text-center text-[14px] font-bold tabular-nums">
+            <span className="min-w-5 text-center text-[13px] font-bold text-ink tabular-nums">
               {quantity}
             </span>
             <StepperButton
