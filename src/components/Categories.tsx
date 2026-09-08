@@ -1,8 +1,30 @@
+import { useState } from 'react'
+import type { Category } from '../data/shop'
 import { CATEGORIES } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
 import ToyArt from './ToyArt'
 import SectionHeading from './SectionHeading'
 import { Confetti, Squiggle } from './Decor'
+
+/** Shelf photo when there is one, the drawing when there isn't — see Product.image. */
+function CategoryArt({ category }: { category: Category }) {
+  const [photoFailed, setPhotoFailed] = useState(false)
+
+  if (!category.image || photoFailed) {
+    return <ToyArt name={category.art} title={category.name} />
+  }
+
+  return (
+    <img
+      src={category.image}
+      alt={category.name}
+      loading="lazy"
+      decoding="async"
+      onError={() => setPhotoFailed(true)}
+      className="h-full w-full rounded-[1.5rem] border-2 border-ink/8 object-cover"
+    />
+  )
+}
 
 export default function Categories() {
   const ref = useReveal<HTMLElement>()
@@ -36,7 +58,7 @@ export default function Categories() {
                 className="h-32 w-32 self-center transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3 sm:h-44 sm:w-44"
                 style={{ transform: `rotate(${category.tilt})` }}
               >
-                <ToyArt name={category.art} title={category.name} />
+                <CategoryArt category={category} />
               </div>
 
               <div>

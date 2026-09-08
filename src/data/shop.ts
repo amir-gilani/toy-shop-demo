@@ -135,17 +135,61 @@ export type Category = {
   name: string
   count: string
   art: ToyArtKey
+  /** Shelf photograph, square. Optional on the same terms as `Product.image`. */
+  image?: string
   tint: string
   tilt: string
 }
 
 export const CATEGORIES: Category[] = [
-  { name: 'Plush friends', count: '84 cuddles', art: 'bunny', tint: '#ffe6f2', tilt: '-3deg' },
-  { name: 'Wooden classics', count: '52 pieces', art: 'train', tint: '#e4f8f1', tilt: '2deg' },
-  { name: 'Build & stack', count: '38 sets', art: 'blocks', tint: '#fff4dd', tilt: '-2deg' },
-  { name: 'Little dreamers', count: '27 dolls', art: 'doll', tint: '#f1e9ff', tilt: '3deg' },
-  { name: 'Whirr & whizz', count: '31 gadgets', art: 'robot', tint: '#e6f3ff', tilt: '-2deg' },
-  { name: 'Ready-wrapped gifts', count: '19 boxes', art: 'rocket', tint: '#ffeede', tilt: '2deg' },
+  {
+    name: 'Plush friends',
+    count: '84 cuddles',
+    art: 'bunny',
+    image: '/categories/plush-friends.jpg',
+    tint: '#ffe6f2',
+    tilt: '-3deg',
+  },
+  {
+    name: 'Wooden classics',
+    count: '52 pieces',
+    art: 'train',
+    image: '/categories/wooden-classics.jpg',
+    tint: '#e4f8f1',
+    tilt: '2deg',
+  },
+  {
+    name: 'Build & stack',
+    count: '38 sets',
+    art: 'blocks',
+    image: '/categories/build-stack.jpg',
+    tint: '#fff4dd',
+    tilt: '-2deg',
+  },
+  {
+    name: 'Little dreamers',
+    count: '27 dolls',
+    art: 'doll',
+    image: '/categories/little-dreamers.jpg',
+    tint: '#f1e9ff',
+    tilt: '3deg',
+  },
+  {
+    name: 'Whirr & whizz',
+    count: '31 gadgets',
+    art: 'robot',
+    image: '/categories/whirr-whizz.jpg',
+    tint: '#e6f3ff',
+    tilt: '-2deg',
+  },
+  {
+    name: 'Ready-wrapped gifts',
+    count: '19 boxes',
+    art: 'rocket',
+    image: '/categories/ready-wrapped.jpg',
+    tint: '#ffeede',
+    tilt: '2deg',
+  },
 ]
 
 export type Promise = { title: string; body: string; icon: string }
