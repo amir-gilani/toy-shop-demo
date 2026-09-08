@@ -1,0 +1,325 @@
+@import 'tailwindcss';
+
+/*
+ * Toopoli's design tokens. Everything is registered with Tailwind's @theme so
+ * the palette is reachable as utilities (bg-bubblegum, text-ink, font-display)
+ * instead of living in two places at once.
+ */
+@theme {
+  --font-display: 'Fredoka', 'Trebuchet MS', 'Helvetica Neue', sans-serif;
+  --font-body: 'Nunito', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Page grounds */
+  --color-cream: #fff9f2;
+  --color-shell: #fff2e6;
+  --color-cloud: #ffffff;
+
+  /*
+   * Section washes. Cream and shell sit a couple of percent apart, which is
+   * fine for a card but leaves a wavy join between two sections invisible —
+   * these are tinted far enough to actually show the curve.
+   */
+  --color-peachwash: #ffeadd;
+  --color-mintwash: #e8f8f1;
+
+  /* Dark plum that reads as black against the pastels without going cold. */
+  --color-ink: #241a2e;
+  --color-ink-soft: #6b5b78;
+
+  /* Candy accents */
+  --color-bubblegum: #ff6fb5;
+  --color-candy: #f4438b;
+  --color-sky: #6ec6ff;
+  --color-mint: #7adfc0;
+  --color-butter: #ffd66e;
+  --color-coral: #ff8a5b;
+  --color-lilac: #c6a8ff;
+
+  --radius-blob: 2.5rem;
+}
+
+:root {
+  /*
+   * Sampled from the hero clip's own backdrop, which is a stable vertical
+   * gradient: near-white at the top falling to pink at the bottom. Matching it
+   * behind the hero makes the edge of the video disappear into the layout.
+   */
+  --hero-top: #fefefe;
+  --hero-mid: #fff4fb;
+  --hero-bottom: #ffc8eb;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background-color: var(--color-cream);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: var(--color-butter);
+  color: var(--color-ink);
+}
+
+/*
+ * Hidden scrollbar. The page still scrolls exactly as before — only the bar is
+ * gone, in every engine: WebKit and Blink need the pseudo-element, Firefox
+ * reads scrollbar-width, and older Edge reads -ms-overflow-style.
+ */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- hero --- */
+
+.hero-gradient {
+  background-image: linear-gradient(
+    180deg,
+    var(--hero-top) 0%,
+    var(--hero-mid) 45%,
+    var(--hero-bottom) 100%
+  );
+}
+
+/* ---------------------------------------------------------------- hero --- */
+
+/*
+ * Framing for the hero artwork. It is 16:9, so a wide viewport barely crops it
+ * and centring works; a phone crops hard from the sides, so the framing moves
+ * onto the panda's face rather than showing half a hat.
+ */
+:root {
+  --panda-pos: 62% 42%;
+}
+
+.hero-backdrop {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --panda-pos: 0% 50%;
+  }
+
+  /*
+   * The box stops short of the hero on two sides, so those edges are dissolved
+   * into the cream instead of ending on a straight line. The other two run off
+   * the screen and need nothing.
+   */
+  .hero-backdrop {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 22%),
+      linear-gradient(to bottom, transparent 0%, #000 14%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 22%),
+      linear-gradient(to bottom, transparent 0%, #000 14%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+}
+
+/* ------------------------------------------------------------ controls --- */
+
+/* Shared pill geometry — variants only differ in colour, so hover stays CSS. */
+/*
+ * Wrapped in @layer components so plain utilities still win: an unlayered
+ * `.pill { display: inline-flex }` would beat Tailwind’s `hidden`, which is
+ * exactly what a responsive `hidden sm:inline-flex` pill needs to do.
+ */
+@layer components {
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 0.65em 1.25em;
+    border: 2px solid transparent;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .pill:hover {
+    transform: translateY(-2px);
+  }
+
+  .pill:active {
+    transform: translateY(0);
+  }
+
+  .pill-solid {
+    background-color: var(--color-ink);
+    color: #fff;
+  }
+  .pill-solid:hover {
+    background-color: var(--color-candy);
+  }
+
+  .pill-candy {
+    background-color: var(--color-bubblegum);
+    color: #fff;
+    box-shadow: 0 10px 24px -12px rgb(244 67 139 / 0.9);
+  }
+  .pill-candy:hover {
+    background-color: var(--color-candy);
+    box-shadow: 0 16px 30px -12px rgb(244 67 139 / 0.95);
+  }
+
+  .pill-outline {
+    background-color: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  .pill-outline:hover {
+    background-color: var(--color-ink);
+    color: #fff;
+  }
+
+  .pill-ghost {
+    background-color: rgb(255 255 255 / 0.75);
+    color: var(--color-ink);
+    border-color: rgb(36 26 46 / 0.12);
+  }
+  .pill-ghost:hover {
+    background-color: #fff;
+    border-color: var(--color-bubblegum);
+    color: var(--color-candy);
+  }
+}
+
+/* -------------------------------------------------------------- cards --- */
+
+/*
+ * Speech-bubble tail on a review card: two stacked triangles, the back one in
+ * the border colour and the front one in the card colour, so the tail keeps the
+ * card's outline instead of looking pasted on.
+ */
+.speech::before,
+.speech::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 46px;
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+}
+
+.speech::before {
+  border-top: 18px solid rgb(36 26 46 / 0.1);
+}
+
+.speech::after {
+  bottom: -14px;
+  border-top: 18px solid var(--color-cloud);
+}
+
+/* --------------------------------------------------------- animations --- */
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* The track holds the same list twice, so half a lap loops seamlessly. */
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-12px) rotate(var(--tilt, 0deg));
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 2.4s ease-in-out infinite;
+}
+
+/* Sections fade up the first time they scroll into view (see useReveal). */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float,
+  .animate-wiggle,
+  .animate-blink {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
