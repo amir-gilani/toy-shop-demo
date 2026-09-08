@@ -1,6 +1,6 @@
 # Where the photographs go
 
-Three sections of the site render a photograph when one exists and leave the
+Four sections of the site render a photograph when one exists and leave the
 space empty when it doesn't. Nothing in the code needs changing to add one —
 drop a file at the path below and it appears.
 
@@ -48,11 +48,21 @@ fairly close — a wide shot reads as an empty disc at this size.
 | `whole-worlds.jpg` | 3–5 |
 | `proper-projects.jpg` | 5+ |
 
+## `public/story/` — "We only make toys we would hand to our own kids"
+
+One square photo (1000×1000 works well) beside the story text — the workshop,
+the bench, the people. The "Since 2016" badge sits over its bottom edge.
+
+| File | Where |
+| --- | --- |
+| `workshop.jpg` | Right-hand frame of the story section |
+
 ## Changing a filename
 
 The paths live in [`src/data/shop.ts`](src/data/shop.ts) (`image` on each
-product and category) and in the `AGES` list at the top of
-[`src/components/Gifts.tsx`](src/components/Gifts.tsx).
+product and category), in the `AGES` list at the top of
+[`src/components/Gifts.tsx`](src/components/Gifts.tsx), and in `STORY_PHOTO` at
+the top of [`src/components/Story.tsx`](src/components/Story.tsx).
 
 ## Not covered here
 

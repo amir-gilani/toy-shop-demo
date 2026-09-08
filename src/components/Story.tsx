@@ -1,14 +1,49 @@
+import { useState } from 'react'
 import { PROMISES } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
 import SectionHeading from './SectionHeading'
 import { Confetti, Dots } from './Decor'
-import ToyArt from './ToyArt'
+
+/** Photograph for the story, served from `public/story/`. Empty until one exists. */
+const STORY_PHOTO = '/story/workshop.jpg'
 
 const ICONS: Record<string, string> = {
   stitch: 'M4 12c3-4 6-4 9 0s6 4 9 0',
   shield: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6Z',
   gift: 'M3 9h18v3H3zM4.5 12h15v8a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1zM12 9v12M12 9c-3.5 0-5-1-5-3s3-2 5 3c2-5 5-4 5-3s-1.5 3-5 3z',
   truck: 'M3 7h10v9H3zM13 10h4l3 3v3h-7zM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4M17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4',
+}
+
+/**
+ * The frame keeps its size and tint whether or not the photograph is there, so
+ * the section reads as finished either way — see `Product.image`.
+ */
+function StoryPhoto() {
+  const [photoFailed, setPhotoFailed] = useState(false)
+
+  return (
+    <div className="relative mx-auto w-full max-w-[30rem]">
+      <div
+        className="aspect-square overflow-hidden rounded-[2.5rem] border-2 border-ink/8"
+        style={{ backgroundColor: '#ffe6f2' }}
+      >
+        {!photoFailed && (
+          <img
+            src={STORY_PHOTO}
+            alt="The Toopoli workshop"
+            loading="lazy"
+            decoding="async"
+            onError={() => setPhotoFailed(true)}
+            className="h-full w-full object-cover"
+          />
+        )}
+      </div>
+
+      <span className="animate-wiggle font-display absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-ink px-5 py-3 text-[14px] font-semibold text-cream shadow-[0_18px_36px_-18px_rgb(36_26_46_/_0.8)]">
+        Since 2016
+      </span>
+    </div>
+  )
 }
 
 export default function Story() {
@@ -63,32 +98,8 @@ export default function Story() {
             </dl>
           </div>
 
-          {/*
-            A shelf of the range, tilted at slightly different angles so it reads
-            as a display rather than a grid.
-          */}
-          <div className="relative mx-auto grid w-full max-w-[30rem] grid-cols-2 gap-4">
-            {(
-              [
-                { art: 'bear', tint: '#ffeede', tilt: '-4deg', offset: 'mt-0' },
-                { art: 'blocks', tint: '#fff4dd', tilt: '3deg', offset: 'mt-8' },
-                { art: 'horse', tint: '#ffe6f2', tilt: '-2deg', offset: '-mt-4' },
-                { art: 'dino', tint: '#e4f8f1', tilt: '4deg', offset: 'mt-4' },
-              ] as const
-            ).map((tile) => (
-              <div
-                key={tile.art}
-                className={`aspect-square rounded-[2rem] border-2 border-ink/8 p-5 ${tile.offset}`}
-                style={{ backgroundColor: tile.tint, transform: `rotate(${tile.tilt})` }}
-              >
-                <ToyArt name={tile.art} title="" />
-              </div>
-            ))}
-
-            <span className="animate-wiggle font-display absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink px-5 py-3 text-[14px] font-semibold text-cream shadow-[0_18px_36px_-18px_rgb(36_26_46_/_0.8)]">
-              Since 2016
-            </span>
-          </div>
+          {/* One frame for a photograph of the workshop; empty until there is one. */}
+          <StoryPhoto />
         </div>
       </div>
     </section>
