@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useReveal } from '../hooks/useReveal'
-import ToyArt from './ToyArt'
 
 export default function Newsletter() {
   const ref = useReveal<HTMLElement>()
@@ -10,17 +9,6 @@ export default function Newsletter() {
   return (
     <section ref={ref} className="reveal px-5 py-20 sm:px-8 sm:py-28">
       <div className="relative mx-auto max-w-[1000px] overflow-hidden rounded-[2.5rem] bg-ink px-6 py-14 text-center sm:px-12 sm:py-16">
-        {/* Two toys peeking over the edges of the panel. */}
-        <span className="animate-float absolute -bottom-6 -left-6 h-32 w-32 opacity-90 sm:h-40 sm:w-40">
-          <ToyArt name="bear" title="" />
-        </span>
-        <span
-          className="animate-float absolute -right-5 -bottom-8 h-28 w-28 opacity-90 sm:h-36 sm:w-36"
-          style={{ animationDelay: '1.2s' }}
-        >
-          <ToyArt name="rocket" title="" />
-        </span>
-
         <div className="relative z-10 mx-auto max-w-[34rem]">
           <p className="text-[13px] font-bold tracking-[0.14em] text-butter uppercase">
             The Friday restock
