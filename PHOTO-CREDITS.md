@@ -38,6 +38,21 @@ Square crops (`w=600&h=600&fit=crop&q=72`).
 `products/juno.jpg` — Unsplash's free library has no other cloth-doll shot that
 suits a children's shop.
 
+## Age bands
+
+Square crops (`w=500&h=500&fit=crop&q=72`), shown as circles.
+
+| File | Photographer | Source |
+| --- | --- | --- |
+| `first-cuddles.jpg` | charlesdeluvio | https://unsplash.com/photos/2vfwTakDTIo |
+| `grabbers-stackers.jpg` | Tomáš Petz | https://unsplash.com/photos/O8eo2BC1SOI |
+| `whole-worlds.jpg` | Eric Prouzet | https://unsplash.com/photos/a-pile-of-toy-cars-sitting-on-top-of-a-table-soPzKshLkfk |
+| `proper-projects.jpg` | Jorge Franganillo | https://unsplash.com/photos/E0-pt-C9UwY |
+
+`first-cuddles.jpg` uses a focal-point crop (`crop=focalpoint&fp-x=0.22&fp-y=0.52&fp-z=1.7`)
+rather than the automatic one — the nursery mobile is shot wide, and at the size
+of the disc an entropy crop left an almost empty circle.
+
 ## Not from Unsplash
 
 The hero panda images (`public/panda-*.jpg`) are not from Unsplash and are not

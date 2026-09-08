@@ -1,8 +1,43 @@
+import type { Review } from '../data/shop'
 import { REVIEWS } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
 import SectionHeading from './SectionHeading'
 import { Confetti } from './Decor'
 import ToyArt from './ToyArt'
+
+/** "Hannah W." -> "HW". Falls back to the first letter for a single-word name. */
+function initialsOf(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join('')
+}
+
+/**
+ * Reviewer profile picture.
+ *
+ * A monogram rather than a face: these reviews are written copy, and putting a
+ * real photographed person beside words they never said is the one thing a
+ * testimonial must not do. The toy they bought sits in the corner badge.
+ */
+function ReviewerAvatar({ review }: { review: Review }) {
+  return (
+    <span className="relative shrink-0">
+      <span
+        className="font-display grid h-12 w-12 place-items-center rounded-full border-2 border-ink text-[15px] leading-none font-bold tracking-[0.02em] text-ink"
+        style={{ backgroundColor: review.tint }}
+        aria-hidden="true"
+      >
+        {initialsOf(review.name)}
+      </span>
+      <span className="absolute -right-1.5 -bottom-1.5 grid h-7 w-7 place-items-center rounded-full border-2 border-ink bg-cloud p-0.5">
+        <ToyArt name={review.art} title="" />
+      </span>
+    </span>
+  )
+}
 
 export default function Testimonials() {
   const ref = useReveal<HTMLDivElement>()
@@ -42,13 +77,8 @@ export default function Testimonials() {
                 “{review.quote}”
               </blockquote>
 
-              <figcaption className="mt-6 flex items-center gap-3 border-t border-ink/8 pt-5">
-                <span
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full p-1.5"
-                  style={{ backgroundColor: review.tint }}
-                >
-                  <ToyArt name={review.art} title="" />
-                </span>
+              <figcaption className="mt-6 flex items-center gap-3.5 border-t border-ink/8 pt-5">
+                <ReviewerAvatar review={review} />
                 <span>
                   <span className="block text-[14px] font-semibold text-ink">
                     {review.name}
