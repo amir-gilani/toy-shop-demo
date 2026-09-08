@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useCart } from '../hooks/useCart'
 import Logo from './Logo'
 
 const NAV_LINKS = [
@@ -28,6 +29,7 @@ function BagIcon() {
 }
 
 export default function Navbar() {
+  const { count, open: openBag } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -79,16 +81,36 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <a
-              href="#shop"
+            <button
+              type="button"
+              onClick={openBag}
+              aria-label={`Open bag, ${count} ${count === 1 ? 'toy' : 'toys'}`}
               className="pill pill-candy hidden text-[14px] sm:inline-flex"
             >
               <BagIcon />
               Bag
-              <span className="grid h-5 min-w-5 place-items-center rounded-full bg-white px-1 text-[11px] font-bold text-candy">
-                2
-              </span>
-            </a>
+              {count > 0 && (
+                <span className="grid h-5 min-w-5 place-items-center rounded-full bg-white px-1 text-[11px] font-bold text-candy tabular-nums">
+                  {count}
+                </span>
+              )}
+            </button>
+
+            {/* Below sm the labelled pill would crowd the burger, so the bag
+                keeps its place as an icon with the count riding the corner. */}
+            <button
+              type="button"
+              onClick={openBag}
+              aria-label={`Open bag, ${count} ${count === 1 ? 'toy' : 'toys'}`}
+              className="relative grid h-11 w-11 place-items-center rounded-2xl border-2 border-ink/10 bg-white/70 text-ink sm:hidden"
+            >
+              <BagIcon />
+              {count > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-candy px-1 text-[11px] font-bold text-white tabular-nums">
+                  {count}
+                </span>
+              )}
+            </button>
 
             <button
               type="button"
@@ -134,14 +156,17 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
-        <a
-          href="#shop"
-          onClick={() => setMenuOpen(false)}
+        <button
+          type="button"
+          onClick={() => {
+            setMenuOpen(false)
+            openBag()
+          }}
           className="pill pill-candy mt-7 self-start text-[16px]"
         >
           <BagIcon />
-          View bag (2)
-        </a>
+          View bag{count > 0 && ` (${count})`}
+        </button>
       </div>
     </>
   )

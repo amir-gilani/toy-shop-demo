@@ -8,11 +8,13 @@ import Gifts from './components/Gifts'
 import Testimonials from './components/Testimonials'
 import Newsletter from './components/Newsletter'
 import Footer from './components/Footer'
+import CartDrawer from './components/CartDrawer'
 import { WaveDivider } from './components/Decor'
+import { CartProvider } from './hooks/useCart'
 
 export default function App() {
   return (
-    <>
+    <CartProvider>
       <Navbar />
       <main>
         <Hero />
@@ -30,6 +32,7 @@ export default function App() {
       </main>
       <WaveDivider from="var(--color-cream)" to="var(--color-shell)" />
       <Footer />
-    </>
+      <CartDrawer />
+    </CartProvider>
   )
 }

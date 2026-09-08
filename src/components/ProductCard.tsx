@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Product } from '../data/shop'
+import { useCart } from '../hooks/useCart'
 
 function Stars({ rating }: { rating: number }) {
   const rounded = Math.round(rating)
@@ -15,13 +16,15 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const { add } = useCart()
   const [added, setAdded] = useState(false)
   // Until the photograph exists the frame is simply left empty — the tint keeps
   // the card's height and colour, so the grid holds its shape either way.
   const [photoFailed, setPhotoFailed] = useState(false)
   const showPhoto = Boolean(product.image) && !photoFailed
 
-  // There is no basket yet, so the button confirms and then quietly resets.
+  // The toy is in the bag either way; this only holds the confirmation on the
+  // button long enough to read before it goes back to offering another one.
   useEffect(() => {
     if (!added) return
     const timeout = setTimeout(() => setAdded(false), 1800)
@@ -82,7 +85,10 @@ export default function ProductCard({ product }: { product: Product }) {
 
           <button
             type="button"
-            onClick={() => setAdded(true)}
+            onClick={() => {
+              add(product)
+              setAdded(true)
+            }}
             aria-label={`Add ${product.name} to bag`}
             className={`pill text-[13px] ${added ? 'pill-candy' : 'pill-solid'}`}
           >
