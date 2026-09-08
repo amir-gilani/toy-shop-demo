@@ -29,12 +29,10 @@ export default function ProductCard({ product }: { product: Product }) {
   }, [added])
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[2rem] border-2 border-ink/8 bg-cloud transition-all duration-300 hover:-translate-y-1.5 hover:border-ink hover:shadow-[0_28px_44px_-30px_rgb(36_26_46_/_0.65)]">
+    <article className="lift group flex h-full flex-col overflow-hidden rounded-[2rem] border-2 border-ink/8 bg-cloud hover:border-ink">
       <div
-        className={`relative flex aspect-[4/3.4] items-center justify-center overflow-hidden ${
-          showPhoto ? '' : 'p-6'
-        }`}
-        style={{ backgroundColor: product.tint }}
+        className="plate relative aspect-[4/3.4] overflow-hidden"
+        style={{ '--plate': product.tint } as React.CSSProperties}
       >
         {product.badge && (
           <span className="absolute top-3.5 left-3.5 rounded-full bg-ink px-3 py-1 text-[11px] font-bold tracking-wide text-cream">

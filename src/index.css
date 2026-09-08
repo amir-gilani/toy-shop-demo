@@ -209,6 +209,93 @@ html {
   }
 }
 
+/* ----------------------------------------------------------- surfaces --- */
+
+/*
+ * Every photograph on the site sits on a plate: a tinted panel lit from the
+ * top-left, shaded at the bottom-right and closed with a hairline. It is here
+ * so an empty slot reads as a finished surface rather than a hole, and it keeps
+ * earning its place once a photograph covers it, where the hairline becomes the
+ * frame's inner edge. Set the colour with --plate.
+ */
+.plate {
+  position: relative;
+  background-color: var(--plate, var(--color-shell));
+  /*
+   * Kept tight and low: a sheen wide enough to look good on a small disc washes
+   * the tint out of a large frame, and the tint is the point.
+   */
+  background-image:
+    radial-gradient(78% 68% at 16% 8%, rgb(255 255 255 / 0.6), transparent 60%),
+    radial-gradient(85% 78% at 88% 96%, rgb(36 26 46 / 0.15), transparent 62%);
+}
+
+.plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgb(36 26 46 / 0.07);
+  pointer-events: none;
+}
+
+/*
+ * One elevation for every card on the page, so the shop, the aisles and the age
+ * bands sit at the same height above the paper instead of each inventing its
+ * own shadow and hover distance.
+ */
+/* The resting half of .lift, for panels that sit still — a banner that rises
+   under the cursor promises a click it does not have. */
+.raised {
+  box-shadow:
+    0 1px 2px rgb(36 26 46 / 0.04),
+    0 14px 30px -20px rgb(36 26 46 / 0.4);
+}
+
+.lift {
+  box-shadow:
+    0 1px 2px rgb(36 26 46 / 0.04),
+    0 14px 30px -20px rgb(36 26 46 / 0.4);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 2px 4px rgb(36 26 46 / 0.05),
+    0 34px 54px -26px rgb(36 26 46 / 0.45);
+}
+
+/*
+ * A card left on the shelf at a slight angle that straightens as you reach for
+ * it. The angle comes from --tilt, so no two cards lie the same way.
+ */
+.shelf-card {
+  transform: rotate(var(--tilt, 0deg));
+}
+
+.shelf-card:hover {
+  transform: rotate(0deg) translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lift,
+  .shelf-card {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .lift:hover {
+    transform: none;
+  }
+
+  .shelf-card:hover {
+    transform: rotate(var(--tilt, 0deg));
+  }
+}
+
 /* -------------------------------------------------------------- cards --- */
 
 /*

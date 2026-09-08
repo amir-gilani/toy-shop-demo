@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useReveal } from '../hooks/useReveal'
 import SectionHeading from './SectionHeading'
-import { Confetti, Blob } from './Decor'
 
 type AgeBand = {
   age: string
@@ -47,8 +46,8 @@ function AgeArt({ band }: { band: AgeBand }) {
 
   return (
     <span
-      className="grid h-28 w-28 place-items-center overflow-hidden rounded-full p-1.5 transition-transform duration-500 group-hover:scale-105 sm:h-32 sm:w-32"
-      style={{ backgroundColor: band.tint }}
+      className="plate grid h-28 w-28 place-items-center overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105 sm:h-32 sm:w-32"
+      style={{ '--plate': band.tint } as React.CSSProperties}
     >
       {!photoFailed && (
         <img
@@ -73,9 +72,6 @@ export default function Gifts() {
       ref={ref}
       className="reveal relative mx-auto max-w-[1240px] px-5 py-20 sm:px-8 sm:py-28"
     >
-      <Blob className="absolute -top-10 left-1/2 h-[420px] w-[420px] -translate-x-1/2 text-lilac/25" />
-      <Confetti />
-
       <SectionHeading
         eyebrow="Stuck for a present?"
         highlight="how old"
@@ -89,20 +85,27 @@ export default function Gifts() {
           <li key={band.age}>
             <a
               href="#shop"
-              className="group flex h-full flex-col items-center gap-4 rounded-[2rem] border-2 border-ink/8 bg-cloud p-6 text-center transition-all duration-300 hover:-translate-y-1.5 hover:border-ink hover:shadow-[0_24px_40px_-28px_rgb(36_26_46_/_0.6)]"
+              className="lift group flex h-full flex-col items-center rounded-[2rem] border-2 border-ink/8 bg-cloud p-6 text-center hover:border-ink"
             >
               <AgeArt band={band} />
-              <span className="font-display rounded-full bg-ink px-4 py-1.5 text-[22px] leading-none font-bold text-cream transition-colors duration-300 group-hover:bg-candy">
+
+              {/*
+                The age sets the type, not a black pill: a solid badge under the
+                disc gave the card two things competing to be looked at first.
+              */}
+              <span className="font-display mt-5 text-[26px] leading-none font-semibold text-ink transition-colors duration-300 group-hover:text-candy">
                 {band.age}
               </span>
-              <span className="text-[14px] text-ink-soft">{band.label}</span>
+              <span className="mt-2 text-[13px] tracking-[0.02em] text-ink-soft">
+                {band.label}
+              </span>
             </a>
           </li>
         ))}
       </ul>
 
       {/* Gift-wrap note, doubling as the second call to action. */}
-      <div className="relative mt-12 flex flex-col items-center justify-between gap-6 rounded-[2.5rem] border-2 border-ink bg-butter px-7 py-8 text-center sm:px-10 md:flex-row md:text-left">
+      <div className="raised relative mt-12 flex flex-col items-center justify-between gap-6 rounded-[2.5rem] border-2 border-ink/10 bg-butter px-7 py-8 text-center sm:px-10 md:flex-row md:text-left">
         <div>
           <h3 className="font-display text-[clamp(1.4rem,3vw,2rem)] leading-tight font-bold text-ink">
             Every order arrives wrapped, at no extra cost

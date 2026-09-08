@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { PROMISES } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
 import SectionHeading from './SectionHeading'
-import { Confetti, Dots } from './Decor'
+import { Dots } from './Decor'
 
 /** Photograph for the story, served from `public/story/`. Empty until one exists. */
 const STORY_PHOTO = '/story/workshop.jpg'
@@ -23,9 +23,17 @@ function StoryPhoto() {
 
   return (
     <div className="relative mx-auto w-full max-w-[30rem]">
+      {/* An empty outline slipped behind the frame, so the corner has depth. */}
       <div
-        className="aspect-square overflow-hidden rounded-[2.5rem] border-2 border-ink/8"
-        style={{ backgroundColor: '#ffe6f2' }}
+        className="absolute inset-0 -translate-x-3 translate-y-3 rounded-[2.5rem] border-2 border-ink/15"
+        aria-hidden="true"
+      />
+
+      <div
+        className="plate relative aspect-square overflow-hidden rounded-[2.5rem] border-2 border-ink/8"
+        // Mint, not another pink: the frame sits on a peach wash and a warm
+        // tint disappears into it.
+        style={{ '--plate': '#e4f8f1' } as React.CSSProperties}
       >
         {!photoFailed && (
           <img
@@ -39,7 +47,7 @@ function StoryPhoto() {
         )}
       </div>
 
-      <span className="animate-wiggle font-display absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-ink px-5 py-3 text-[14px] font-semibold text-cream shadow-[0_18px_36px_-18px_rgb(36_26_46_/_0.8)]">
+      <span className="font-display absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-ink px-5 py-3 text-[14px] font-semibold text-cream shadow-[0_18px_36px_-18px_rgb(36_26_46_/_0.8)]">
         Since 2016
       </span>
     </div>
@@ -52,7 +60,6 @@ export default function Story() {
   return (
     <section id="story" className="relative overflow-hidden bg-peachwash py-20 sm:py-28">
       <Dots className="absolute top-16 right-8 h-24 w-32 text-bubblegum/30" rows={4} cols={6} />
-      <Confetti />
 
       {/*
         The reveal sits on the content, never on the section, because the

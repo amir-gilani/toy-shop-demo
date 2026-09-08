@@ -2,7 +2,6 @@ import type { Review } from '../data/shop'
 import { REVIEWS } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
 import SectionHeading from './SectionHeading'
-import { Confetti } from './Decor'
 
 /** "Hannah W." -> "HW". Falls back to the first letter for a single-word name. */
 function initialsOf(name: string) {
@@ -39,8 +38,6 @@ export default function Testimonials() {
 
   return (
     <section className="relative overflow-hidden bg-mintwash py-20 sm:py-28">
-      <Confetti />
-
       {/*
         The reveal sits on the content, never on the section, because the
         section carries the background colour. Fading that made the wavy divider
@@ -59,7 +56,7 @@ export default function Testimonials() {
           {REVIEWS.map((review) => (
             <li
               key={review.name}
-              className="speech relative flex flex-col rounded-[2rem] border-2 border-ink/10 bg-cloud p-7 transition-transform duration-300 hover:-translate-y-1.5"
+              className="speech lift relative flex flex-col rounded-[2rem] border-2 border-ink/10 bg-cloud p-7"
             >
               <span
                 className="text-[14px] tracking-[0.08em] text-butter"

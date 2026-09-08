@@ -3,7 +3,6 @@ import { PRODUCTS } from '../data/shop'
 import { useReveal } from '../hooks/useReveal'
 import ProductCard from './ProductCard'
 import SectionHeading from './SectionHeading'
-import { Confetti } from './Decor'
 
 const FILTERS = ['Everything', 'Plush', 'Wooden', 'Under £40'] as const
 
@@ -33,8 +32,6 @@ export default function Shop() {
       ref={ref}
       className="reveal relative mx-auto max-w-[1240px] px-5 py-20 sm:px-8 sm:py-28"
     >
-      <Confetti />
-
       <div className="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <SectionHeading
           eyebrow="This week on the shelf"
