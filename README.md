@@ -1,3 +1,4 @@
+
 # Toopoli — Toy Shop Demo
 
 A demo storefront for **Toopoli**, a fictional toy shop. It is a single-page
@@ -12,12 +13,7 @@ shopping cart.
 
 ## Demo
 
-![Toopoli demo](docs/demo.gif)
-
-<!--
-  To add the demo recording: save it as docs/demo.gif and it will show up here
-  on its own. Keep it under ~10 MB so GitHub renders it inline.
--->
+<img width="800" height="360" alt="IMG_7352-ezgif com-video-to-gif-converter (16)" src="https://github.com/user-attachments/assets/a9aeb3f1-1a6a-4ccd-b1f5-142329ae6dcd" />
 
 ## Features
 
