@@ -112,9 +112,27 @@ html {
   mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
 }
 
+/*
+ * Inside the lens: the colour artwork, sitting at the bottom of a panel of its
+ * own backdrop colour that runs on up behind the nav. Its top edge is softened
+ * into that colour so the join never shows as a line. It is deliberately not
+ * under the base artwork's long top fade — that fade is what hid the reveal as
+ * the cursor went up.
+ */
+.hero-reveal-image {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 5%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 5%);
+}
+
 @media (min-width: 48rem) {
   :root {
     --panda-pos: 0% 50%;
+  }
+
+  /* The left edge still dissolves exactly as the base artwork's does. */
+  .hero-reveal {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 22%);
   }
 
   /*

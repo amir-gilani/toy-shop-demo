@@ -17,6 +17,17 @@ const EASE = 0.35
 const SETTLED = 0.3
 
 /**
+ * The colour artwork's backdrop, sampled from its edges (they are all within a
+ * shade of this). Above the artwork there is no picture left to reveal, so the
+ * lens shows this instead and reads as the same backdrop running on behind the
+ * nav, rather than a circle cut off by a straight line.
+ */
+const REVEAL_BACKDROP = '#e56146'
+
+/** Wide enough for the backdrop to show the lens clear of the artwork. */
+const WIDE = '(min-width: 48rem)'
+
+/**
  * The hero backdrop: the white artwork, with a circle under the cursor showing
  * the red one.
  *
@@ -32,7 +43,10 @@ const SETTLED = 0.3
 export default function HeroBackdrop() {
   const hostRef = useRef<HTMLDivElement>(null)
   const lensRef = useRef<HTMLDivElement>(null)
+  const worldRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLImageElement>(null)
+  /** How far the revealed backdrop runs on above the artwork, in px. */
+  const aboveRef = useRef(0)
 
   /** Pointer target and the eased position actually drawn, in host coordinates. */
   const targetRef = useRef({ x: -9999, y: -9999 })
@@ -42,13 +56,21 @@ export default function HeroBackdrop() {
   useEffect(() => {
     const host = hostRef.current
     const lens = lensRef.current
+    const world = worldRef.current
     const inner = innerRef.current
-    if (!host || !lens || !inner) return
+    if (!host || !lens || !world || !inner) return
 
     // The revealed image has to match the base one exactly, so it is sized to
-    // the host rather than to the circle that clips it.
+    // the host rather than to the circle that clips it. The world around it
+    // runs on above, up past the top of the hero, so the lens has backdrop to
+    // show wherever the cursor goes up there.
     const resize = () => {
       const { width, height } = host.getBoundingClientRect()
+      const above = window.matchMedia?.(WIDE).matches ? host.offsetTop + LENS : 0
+      aboveRef.current = above
+
+      world.style.width = `${width}px`
+      world.style.height = `${height + above}px`
       inner.style.width = `${width}px`
       inner.style.height = `${height}px`
     }
@@ -69,7 +91,7 @@ export default function HeroBackdrop() {
       const lx = eased.x - LENS / 2 + LENS_OFFSET_X
       const ly = eased.y - LENS / 2
       lens.style.transform = `translate3d(${lx.toFixed(2)}px, ${ly.toFixed(2)}px, 0)`
-      inner.style.transform = `translate3d(${(-lx).toFixed(2)}px, ${(-ly).toFixed(2)}px, 0)`
+      world.style.transform = `translate3d(${(-lx).toFixed(2)}px, ${(-ly - aboveRef.current).toFixed(2)}px, 0)`
 
       if (
         Math.abs(target.x - eased.x) > SETTLED ||
@@ -91,7 +113,15 @@ export default function HeroBackdrop() {
       const x = event.clientX - rect.left
       const y = event.clientY - rect.top
 
-      const inside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height
+      // The lens stays up while any of the circle still overlaps the artwork,
+      // and on a wide hero all the way up behind the nav, where the backdrop
+      // carries on above the picture.
+      const reach = LENS / 2
+      const inside =
+        x >= -reach &&
+        y >= -reach - aboveRef.current &&
+        x <= rect.width + reach &&
+        y <= rect.height + reach
       lens.style.opacity = inside ? '1' : '0'
       if (!inside) return
 
@@ -130,12 +160,17 @@ export default function HeroBackdrop() {
      */
     <div
       ref={hostRef}
-      className="hero-backdrop absolute inset-x-0 bottom-0 z-0 h-[34%] overflow-hidden md:-right-[4%] md:left-auto md:h-[88%] md:w-[84%]"
+      className="absolute inset-x-0 bottom-0 z-0 h-[34%] overflow-hidden md:-right-[4%] md:left-auto md:h-[88%] md:w-[84%] md:overflow-visible"
     >
+      {/*
+        The fade into the cream belongs to the base artwork only. On the host it
+        also faded the lens, so the reveal dimmed to nothing exactly where the
+        cursor was heading for the nav.
+      */}
       <img
         src="/panda-white.jpg"
         alt="Panda in a straw hat"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="hero-backdrop absolute inset-0 h-full w-full object-cover"
         style={{ objectPosition: 'var(--panda-pos, 58% 50%)' }}
       />
 
@@ -152,17 +187,20 @@ export default function HeroBackdrop() {
           maskImage: 'radial-gradient(circle, #000 52%, transparent 78%)',
         }}
       >
-        <img
-          ref={innerRef}
-          src="/panda-red.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute top-0 left-0 max-w-none object-cover"
-          style={{
-            objectPosition: 'var(--panda-pos, 58% 50%)',
-            willChange: 'transform',
-          }}
-        />
+        <div
+          ref={worldRef}
+          className="hero-reveal absolute top-0 left-0"
+          style={{ backgroundColor: REVEAL_BACKDROP, willChange: 'transform' }}
+        >
+          <img
+            ref={innerRef}
+            src="/panda-red.jpg"
+            alt=""
+            aria-hidden="true"
+            className="hero-reveal-image absolute bottom-0 left-0 max-w-none object-cover"
+            style={{ objectPosition: 'var(--panda-pos, 58% 50%)' }}
+          />
+        </div>
       </div>
     </div>
   )
